@@ -17,5 +17,19 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    container_name: vigia-api
+    build: ./api
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./api:/code/api
+      - vigia-venv:/code/api/.venv
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      - db 
+
 volumes:
   vigia-db-data:
+  vigia-venv:
